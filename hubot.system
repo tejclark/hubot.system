@@ -1,0 +1,44 @@
+# Hubot with Mattermost Adapter (hubot-mattermost - https://github.com/renanvicente/hubot-mattermost)
+
+[Unit]
+Description=Hubot
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+
+# Path
+Environment=PATH=node_modules/.bin:node_modules/hubot/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+
+# Configure Mattermost adapter environment variables
+Environment=MATTERMOST_ENDPOINT=/hubot/incoming
+
+# OPTIONAL - Override channel to Hubot replies to. 
+Environment=MATTERMOST_CHANNEL=poke
+
+# Incoming Mattermost URL created in Mattermost when you setup an incoming webhook.
+# (Found in Mattermost -> Account Settings -> Integrations -> Incoming Webhooks)
+Environment=MATTERMOST_INCOME_URL=https://messenger.elysium.ltd.uk/hooks/t6y98kzc37g6jyqbf4w97mjnpw
+
+# Outgoing Mattermost webhook token
+# (Found in Mattermost -> Account Settings -> Integrations -> Outgoing Webhooks)
+Environment=MATTERMOST_TOKEN=<token>
+
+# OPTIONAL - Override Hubot's name in Mattermost. Default: Hubot's name.
+Environment=MATTERMOST_HUBOT_USERNAME=<username>
+
+# OPTIONAL - Allow self sign certificates. 
+Environment=MATTERMOST_SELFSIGNED_CERT=true
+
+# Set system user to run Hubot as
+User=hubot
+
+# Set Hubot Working directory
+WorkingDirectory=/opt/mattermost-hubot
+
+# Set Hubot start command
+ExecStart=/opt/mattermost-hubot/bin/hubot --adapter mattermost
+
+[Install]
+WantedBy=multi-user.target
